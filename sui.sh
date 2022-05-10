@@ -29,6 +29,7 @@ options=(
 "Install and Create Wallet"
 "Request tokens in discord"
 "Create NFT"
+"Save key"
 "Exit")
 select opt in "${options[@]}"
 do
@@ -79,6 +80,16 @@ wallet create-example-nft
 wallet create-example-nft --url=https://yt3.ggpht.com/CGCJ3lEQws6WIOCLHcdNLsZfq3d91inG1vamQ6OLTnH1pTuIOwMOWnoV662suF9p9koKk1fOhv8=s900-c-k-c0x00ffffff-no-rj --description="Crypton Academy" --name="Crypton"
 git clone https://github.com/MystenLabs/sui.git
 wallet publish --path sui/sui_programmability/tutorial --gas-budget 30000
+
+break
+;;
+
+"Save key")
+cat $HOME/.sui/sui_config/wallet.key
+
+echo "============================================================"
+echo "Save key"
+echo "============================================================"
 
 break
 ;;
