@@ -46,10 +46,12 @@ sudo apt install make clang pkg-config libssl-dev
 #INSTALL RUST
 curl https://sh.rustup.rs -sSf | sh
 rustup update stable
+source ~/.profile
+source ~/.cargo/env
 cargo -V
 
 #INSTALL SUI
-cargo install --locked --git https://github.com/MystenLabs/sui.git
+cargo install --locked --git https://github.com/MystenLabs/sui.git sui
 which wallet
 wallet active-address
 
