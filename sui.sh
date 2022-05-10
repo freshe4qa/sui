@@ -29,6 +29,7 @@ options=(
 "Install and Create Wallet"
 "Request tokens in discord"
 "Create NFT"
+"Clean up!"
 "Exit")
 select opt in "${options[@]}"
 do
@@ -51,7 +52,7 @@ source ~/.cargo/env
 cargo -V
 
 #INSTALL SUI
-cargo install --locked --git https://github.com/MystenLabs/sui.git sui
+cargo install --locked --git https://github.com/MystenLabs/sui.git --branch "devnet" sui
 which wallet
 wallet active-address
 
@@ -76,12 +77,18 @@ echo "Create NFT"
 echo "============================================================"
 
 wallet create-example-nft
-wallet create-example-nft --url=https://yt3.ggpht.com/CGCJ3lEQws6WIOCLHcdNLsZfq3d91inG1vamQ6OLTnH1pTuIOwMOWnoV662suF9p9koKk1fOhv8=s900-c-k-c0x00ffffff-no-rj --description="Crypton Acaedmy" --name="Crypton"
+wallet create-example-nft --url=https://yt3.ggpht.com/CGCJ3lEQws6WIOCLHcdNLsZfq3d91inG1vamQ6OLTnH1pTuIOwMOWnoV662suF9p9koKk1fOhv8=s900-c-k-c0x00ffffff-no-rj --description="Crypton Academy" --name="Crypton"
 git clone https://github.com/MystenLabs/sui.git
 wallet publish --path sui/sui_programmability/tutorial --gas-budget 30000
 echo "========================================================================================================================"
 echo "Save package object ID and Forge object ID"
 echo "========================================================================================================================"
+
+break
+;;
+
+"Clean up!")
+cleanup
 
 break
 ;;
