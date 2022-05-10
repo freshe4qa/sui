@@ -45,6 +45,7 @@ sudo apt install make clang pkg-config libssl-dev
 
 #INSTALL RUST
 curl https://sh.rustup.rs -sSf | sh
+rustup update stable
 cargo -V
 
 #INSTALL SUI
