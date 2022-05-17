@@ -43,6 +43,7 @@ echo "============================================================"
 #UPDATE APT
 sudo apt update && sudo apt upgrade -y
 sudo apt install make clang pkg-config libssl-dev
+cargo apt install
 
 #INSTALL RUST
 curl https://sh.rustup.rs -sSf | sh
@@ -51,10 +52,21 @@ source ~/.profile
 source ~/.cargo/env
 cargo -V
 
+apt install libprotobuf-dev protobuf-compiler
+apt install make clang pkg-config libssl-dev
+
 #INSTALL SUI
 cargo install --locked --git https://github.com/MystenLabs/sui.git --branch "devnet" sui
+echo $PATH
+
+sudo ufw allow 5000
+sudo ufw allow 5001
+
 which wallet
 wallet active-address
+
+git clone https://github.com/MystenLabs/sui.git
+sui genesis
 
 echo "============================================================"
 echo "Save address"
