@@ -33,13 +33,13 @@ echo -e '\e[0m'
 sleep 2
 
 
-apt-get update && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y --no-install-recommends tzdata git ca-certificates curl build-essential libssl-dev pkg-config libclang-dev cmake
+apt-get update && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y --no-install-recommends tzdata git ca-certificates curl build-essential libssl-dev pkg-config libclang-dev cmake jq
 
 sudo curl https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
 
-mkdir -p /var/sui/db
 rm -rf /var/sui/db /var/sui/genesis.blob
+mkdir -p /var/sui/db
 cd $HOME
 git clone https://github.com/MystenLabs/sui.git
 cd sui
@@ -47,6 +47,11 @@ git remote add upstream https://github.com/MystenLabs/sui
 git fetch upstream
 git checkout --track upstream/devnet
 cp crates/sui-config/data/fullnode-template.yaml /var/sui/fullnode.yaml
+
+wget -O /var/sui/genesis.blob https://github.com/MystenLabs/sui-genesis/raw/main/devnet/genesis.blob
+sed -i.bak "s/db-path:.*/db-path: \"\/var\/sui\/db\"/ ; s/genesis-file-location:.*/genesis-file-location: \"\/var\/sui\/genesis.blob\"/" /var/sui/fullnode.yaml
+cargo build --release -p sui-node
+mv ~/sui/target/release/sui-node /usr/local/bin/
 
 wget -O /var/sui/genesis.blob https://github.com/MystenLabs/sui-genesis/raw/main/devnet/genesis.blob
 sed -i.bak "s/db-path:.*/db-path: \"\/var\/sui\/db\"/ ; s/genesis-file-location:.*/genesis-file-location: \"\/var\/sui\/genesis.blob\"/" /var/sui/fullnode.yaml
