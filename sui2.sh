@@ -38,7 +38,7 @@ apt-get update && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y -
 sudo curl https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
 
-rm -rf /var/sui/db /var/sui/genesis.blob
+rm -rf /var/sui/db /var/sui/genesis.blob $HOME/sui
 mkdir -p /var/sui/db
 cd $HOME
 git clone https://github.com/MystenLabs/sui.git
@@ -47,16 +47,12 @@ git remote add upstream https://github.com/MystenLabs/sui
 git fetch upstream
 git checkout --track upstream/devnet
 cp crates/sui-config/data/fullnode-template.yaml /var/sui/fullnode.yaml
-
+#curl -fLJO https://github.com/MystenLabs/sui-genesis/raw/main/devnet/genesis.blob
 wget -O /var/sui/genesis.blob https://github.com/MystenLabs/sui-genesis/raw/main/devnet/genesis.blob
 sed -i.bak "s/db-path:.*/db-path: \"\/var\/sui\/db\"/ ; s/genesis-file-location:.*/genesis-file-location: \"\/var\/sui\/genesis.blob\"/" /var/sui/fullnode.yaml
 cargo build --release -p sui-node
 mv ~/sui/target/release/sui-node /usr/local/bin/
-
-wget -O /var/sui/genesis.blob https://github.com/MystenLabs/sui-genesis/raw/main/devnet/genesis.blob
-sed -i.bak "s/db-path:.*/db-path: \"\/var\/sui\/db\"/ ; s/genesis-file-location:.*/genesis-file-location: \"\/var\/sui\/genesis.blob\"/" /var/sui/fullnode.yaml
-cargo build --release -p sui-node
-mv ~/sui/target/release/sui-node /usr/local/bin/
+sed -i.bak 's/127.0.0.1/0.0.0.0/' /var/sui/fullnode.yaml
 
 echo "[Unit]
 Description=Sui Node
